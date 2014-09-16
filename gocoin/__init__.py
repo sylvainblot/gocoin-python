@@ -17,14 +17,7 @@ import urllib
 import requests
 import json
 
-# Find a query string parser
-try:
-    from urllib.parse import parse_qs
-except ImportError:
-    from urlparse import parse_qs
-
 from . import version
-
 
 __version__ = version.__version__
 
@@ -42,6 +35,23 @@ class Client(object):
     def get_active_user(self):
         """Fetchs the given object from the graph."""
         return self.request("/user")
+
+    def get_user(self, user_id):
+        path = "/users/" + user_id
+        return self.request(path)
+
+    def get_invoice(self, invoice_id):
+        path = "/invoices/" + invoice_id
+        return self.request(path)
+
+    def create_invoice(self, merchant_id, invoice_params):
+        path = "/merchants/" + merchant_id + "/invoices"
+        return self.request(path, post_args=invoice_params, method="POST")
+
+    def search_invoices(self, search_params):
+        path = "/invoices/search"
+        return self.request(path, args=search_params)
+
 
     def request(self, path, args=None, post_args=None, method="GET"):
         """
@@ -68,7 +78,8 @@ class Client(object):
 
         headers = response.headers
         if 'json' in headers['content-type']:
-            result = response.json()
+          result = response.json()
+          # parsed = json.dumps(result)
         
         return result or True
 
