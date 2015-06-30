@@ -6,7 +6,7 @@ exec(open("gocoin/version.py").read())
 setup(
     name='gocoin-python',
     version=__version__,
-    description='This client library is designed to support the GoCoin API'
+    description='This client library is designed to support the GoCoin API',
     author='GoCoin',
     maintainer='Kevin Beauregard',
     maintainer_email='kevin@gocoin.com',
